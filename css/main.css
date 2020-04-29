@@ -8,11 +8,45 @@ body {
     font-family: sans-serif;
 }
 
+
 .container {
     margin: 0 auto;
     text-align: center;
 }
 
+.text-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+.text-header i{
+    cursor: pointer;
+    padding: 0 10px;
+    font-size: 20px;
+    margin: 0 20px;
+}
+
+li {
+    cursor: pointer;
+    list-style: none;
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+
+li:hover{
+    color:rgb(112, 112, 112);
+}
+
 li.holiday {
     color: red;
+}
+
+.remove{
+    opacity: 0;
+}
+
+.active{
+    opacity: 1;
 }

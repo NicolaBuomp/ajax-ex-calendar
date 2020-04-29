@@ -2,14 +2,15 @@
  * WELCOME TO MOMENT JS
  */
 $(document).ready(function () {
-    
+
     /**
      * SETUP
      */
 
     // Punto di partenza
-    var baseMonth = moment('2018-01-01'); 
-
+    var baseMonth = moment('2018-01-01');
+    var left = $('.btn-left');
+    var right = $('.btn-right')
     // Init Hndlenars
     var source = $('#day-template').html();
     var template = Handlebars.compile(source);
@@ -19,6 +20,54 @@ $(document).ready(function () {
 
     // ottieni festività mese corrente
     printHoliday(baseMonth);
+
+    // gestisco il click a sinistra
+    left.click(function () {
+
+        if (baseMonth.month() > 0) {
+
+            left.removeClass('remove');
+            left.addClass('active');
+
+            baseMonth = baseMonth.subtract(1, 'M');
+
+            $('.month-list').children().remove();
+
+            printMonth(template, baseMonth);
+
+            printHoliday(baseMonth);
+        } else if (baseMonth.month() == 0){
+
+            left.removeClass('active');
+            left.addClass('remove');
+        }
+    })
+
+
+    // Gestisco il click a destra
+    right.click(function () {
+
+        if (baseMonth.month() < 11) {
+
+            right.removeClass('remove');
+            right.addClass('active');
+
+            baseMonth = baseMonth.add(1, 'M');
+
+            $('.month-list').children().remove();
+
+            printMonth(template, baseMonth);
+
+            printHoliday(baseMonth);
+            
+        } else if (baseMonth.month() == 11){
+
+            right.removeClass('active');
+            right.addClass('remove');
+        }
+    })
+
+
 
 }); // <-- End doc ready
 
@@ -33,10 +82,10 @@ function printMonth(template, date) {
     var daysInMonth = date.daysInMonth();
 
     //  setta header
-    $('h1').html( date.format('MMMM YYYY') );
+    $('h1').html(date.format('MMMM YYYY'));
 
     // Imposta data attribute data visualizzata
-    $('.month').attr('data-this-date',  date.format('YYYY-MM-DD'));
+    $('.month').attr('data-this-date', date.format('YYYY-MM-DD'));
 
     // genera giorni mese
     for (var i = 0; i < daysInMonth; i++) {
@@ -64,13 +113,13 @@ function printMonth(template, date) {
 function printHoliday(date) {
     // chiamo API
     $.ajax({
-        url: 'https://flynn.boolean.careers/exercises/api/holidays' ,
+        url: 'https://flynn.boolean.careers/exercises/api/holidays',
         method: 'GET',
         data: {
             year: date.year(),
             month: date.month()
         },
-        success: function(res) {
+        success: function (res) {
             var holidays = res.response;
 
             for (var i = 0; i < holidays.length; i++) {
@@ -78,14 +127,14 @@ function printHoliday(date) {
 
                 var listItem = $('li[data-complete-date="' + thisHoliday.date + '"]');
 
-                if(listItem) {
+                if (listItem) {
                     listItem.addClass('holiday');
-                    listItem.text( listItem.text() + ' - ' + thisHoliday.name );
+                    listItem.text(listItem.text() + ' - ' + thisHoliday.name);
                 }
             }
         },
-        error: function() {
-            console.log('Errore chiamata festività'); 
+        error: function () {
+            console.log('Errore chiamata festività');
         }
     });
 }
