@@ -27,7 +27,6 @@ $(document).ready(function () {
         if (baseMonth.month() > 0) {
 
             left.removeClass('remove');
-            left.addClass('active');
 
             baseMonth = baseMonth.subtract(1, 'M');
 
@@ -38,7 +37,6 @@ $(document).ready(function () {
             printHoliday(baseMonth);
         } else if (baseMonth.month() == 0){
 
-            left.removeClass('active');
             left.addClass('remove');
         }
     })
@@ -50,7 +48,6 @@ $(document).ready(function () {
         if (baseMonth.month() < 11) {
 
             right.removeClass('remove');
-            right.addClass('active');
 
             baseMonth = baseMonth.add(1, 'M');
 
@@ -59,10 +56,9 @@ $(document).ready(function () {
             printMonth(template, baseMonth);
 
             printHoliday(baseMonth);
-            
+
         } else if (baseMonth.month() == 11){
 
-            right.removeClass('active');
             right.addClass('remove');
         }
     })
@@ -99,7 +95,7 @@ function printMonth(template, date) {
         // imposta dati template
         var context = {
             class: 'day',
-            day: thisDate.format('DD MMMM'),
+            day: thisDate.format('DD'),
             completeDate: thisDate.format('YYYY-MM-DD')
         };
 
